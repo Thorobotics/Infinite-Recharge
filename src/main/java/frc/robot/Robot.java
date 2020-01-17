@@ -7,7 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.Subsystems.Drive;
+import frc.robot.Subsystems.OI;
+import frc.robot.Subsystems.RobotMap;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,12 +21,18 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+  OI m_OI;
+  RobotMap robotMap;
+  Drive drive;
   /**
    * This function is run when the robot is first started up and should be used
    * for any initialization code.
    */
   @Override
   public void robotInit() {
+    m_OI = new OI();
+    robotMap = new RobotMap();
+    drive = new Drive();
   }
 
   @Override
@@ -39,6 +49,9 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+
+    drive.drive(robotMap.getChassis(), m_OI.getXAxis(), m_OI.getYAxis());
+    
   }
 
   @Override

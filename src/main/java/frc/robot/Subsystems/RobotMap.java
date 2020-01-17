@@ -18,11 +18,14 @@ public class RobotMap {
     private Spark backRight;
     private final int FRONT_LEFT_ID = 0;
     private final int FRONT_RIGHT_ID = 0;
-    private final int BACK_LEFT_ID = 0;
+    private final int BACK_LEFT_ID = 0;           //change IDS
     private final int BACK_RIGHT_ID = 0;
     private SpeedControllerGroup leftSide;
     private SpeedControllerGroup rightSide;
     private DifferentialDrive chassis;
+
+    private Spark intakeSpark;
+    private final int INTAKE_ID = 0;
 
     public RobotMap() {
         frontLeft = new Spark(FRONT_LEFT_ID);
@@ -34,6 +37,16 @@ public class RobotMap {
         rightSide = new SpeedControllerGroup(frontRight, backRight);
         
         chassis = new DifferentialDrive(leftSide, rightSide);
+
+        intakeSpark = new Spark(INTAKE_ID);
+    }
+
+    public DifferentialDrive getChassis() {
+        return this.chassis;
+    }
+
+    public Spark getIntake() {
+        return this.intakeSpark;
     }
 
 
