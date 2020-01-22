@@ -7,7 +7,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Subsystems.Drive;
 import frc.robot.Subsystems.OI;
@@ -24,10 +23,13 @@ public class Robot extends TimedRobot {
   OI m_OI;
   RobotMap robotMap;
   Drive drive;
-  /**
-   * This function is run when the robot is first started up and should be used
-   * for any initialization code.
-   */
+  private final int X_AXIS = 0;
+  private final int Y_AXIS = 1;
+  boolean intakeDebounce = false;
+  boolean intakeToggle = false;
+  boolean colorDebounce = false;
+  boolean colorToggle = false;
+
   @Override
   public void robotInit() {
     m_OI = new OI();
@@ -49,9 +51,31 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-
-    drive.drive(robotMap.getChassis(), m_OI.getXAxis(), m_OI.getYAxis());
+    boolean intakeButton = this.m_OI.masterController.getStartButtonPressed();
+    boolean colorButton = this.m_OI.masterController.getYButtonPressed();
+    this.drive.drive(this.robotMap.getChassis(), this.m_OI.masterController.getRawAxis(this.X_AXIS), this.m_OI.masterController.getRawAxis(this.Y_AXIS));
     
+    if (intakeButton){
+      if (!this.intakeDebounce){
+        this.intakeDebounce = true;
+        this.intakeToggle = !this.intakeToggle;
+      }
+    } else {
+      this.intakeDebounce = false;
+    } 
+    this.robotMap.getIntake().set( this.intakeToggle ?  0.05 : 0.0);
+    //This block turns intake on/off
+
+    if (colorButton){
+      if (!this.colorDebounce){
+        this.colorDebounce = true;
+        this.colorToggle = !this.colorToggle;
+      }
+    } else {
+      this.colorDebounce = false;
+    }
+    //this block turn colorsensor on/off (Remember to put the actual execution of said code in ALLAN!)
+      
   }
 
   @Override

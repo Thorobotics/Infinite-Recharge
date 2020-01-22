@@ -24,8 +24,13 @@ public class RobotMap {
     private SpeedControllerGroup rightSide;
     private DifferentialDrive chassis;
 
-    private Spark intakeSpark;
-    private final int INTAKE_ID = 0;
+    private Spark spinnerMotor;
+
+    private Spark intakeSpark1;
+    private Spark intakeSpark2; 
+    private final int INTAKE1_ID = 0;
+    private final int INTAKE2_ID = 0;
+    private SpeedControllerGroup intakeMotors;
 
     public RobotMap() {
         frontLeft = new Spark(FRONT_LEFT_ID);
@@ -38,16 +43,20 @@ public class RobotMap {
         
         chassis = new DifferentialDrive(leftSide, rightSide);
 
-        intakeSpark = new Spark(INTAKE_ID);
+        intakeSpark1 = new Spark(INTAKE1_ID);
+        intakeSpark2 = new Spark(INTAKE2_ID);
+
+        intakeMotors = new SpeedControllerGroup(intakeSpark1, intakeSpark2);
     }
 
     public DifferentialDrive getChassis() {
         return this.chassis;
     }
 
-    public Spark getIntake() {
-        return this.intakeSpark;
+    public SpeedControllerGroup getIntake() {
+        return this.intakeMotors;
+    }
+        
+
     }
 
-
-}
