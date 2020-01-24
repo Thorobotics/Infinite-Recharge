@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Subsystems.Drive;
 import frc.robot.Subsystems.OI;
 import frc.robot.Subsystems.RobotMap;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
   RobotMap robotMap;
   Drive drive;
   private final int X_AXIS = 0;
+  Ruble
   private final int Y_AXIS = 1;
   boolean intakeDebounce = false;
   boolean intakeToggle = false;
@@ -51,11 +53,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    boolean intakeButton = this.m_OI.masterController.getStartButtonPressed();
+    //boolean intakeButton = this.m_OI.masterController.getStartButtonPressed();
     boolean colorButton = this.m_OI.masterController.getYButtonPressed();
     this.drive.drive(this.robotMap.getChassis(), this.m_OI.masterController.getRawAxis(this.X_AXIS), this.m_OI.masterController.getRawAxis(this.Y_AXIS));
     
-    if (intakeButton){
+   /* if (intakeButton){
       if (!this.intakeDebounce){
         this.intakeDebounce = true;
         this.intakeToggle = !this.intakeToggle;
@@ -64,7 +66,7 @@ public class Robot extends TimedRobot {
       this.intakeDebounce = false;
     } 
     this.robotMap.getIntake().set( this.intakeToggle ?  0.05 : 0.0);
-    //This block turns intake on/off
+    //This block turns intake on/off */
 
     if (colorButton){
       if (!this.colorDebounce){
@@ -73,7 +75,9 @@ public class Robot extends TimedRobot {
       }
     } else {
       this.colorDebounce = false;
-    }
+
+      this.m_OI.masterController.setRumble(RumbleType.kLeftRumble, 1);
+    } 
     //this block turn colorsensor on/off (Remember to put the actual execution of said code in ALLAN!)
       
   }
