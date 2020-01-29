@@ -1,6 +1,9 @@
 package frc.robot.Subsystems;
 
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * Spinner
@@ -8,8 +11,9 @@ import edu.wpi.first.wpilibj.Spark;
 public class Spinner {
     private final ColorSensor COLOR_SENSOR = new ColorSensor();
 
-    private Spark spinnerMotor;
+    private final Spark spinnerMotor;
 
+    private int rotationDirection = 0;
     private int targetRotations = 0;
     private int rotations = 0;
     private boolean counted = false;
@@ -17,13 +21,13 @@ public class Spinner {
     private String startColor = "";
     private String targetColor = "";
 
-    public Spinner(Spark spinnerMotor){
+    public Spinner(final Spark spinnerMotor){
         this.spinnerMotor = spinnerMotor;
     }
-    public void setColor(Color color){
+    public void setColor(final Color color){
         this.COLOR_SENSOR.setTargetColor(color); 
     }
-    public void setRotations (int rotations){
+    public void setRotations (final int rotations){
         this.targetRotations = rotations;
     }
     public int getRotations(){
@@ -34,7 +38,7 @@ public class Spinner {
         this.startColor = this.COLOR_SENSOR.getNamedColor();
     }
     public void rotationControlPeriodic() {
-        String detected = this.COLOR_SENSOR.getNamedColor();
+        final String detected = this.COLOR_SENSOR.getNamedColor();
 
         if (detected == this.startColor){
             if(!counted){
@@ -58,7 +62,7 @@ public class Spinner {
         this.targetColor = SmartDashboard.getString("Target Color", "Unknown");
     }
     public void positionControlPeriodic() {
-        string detected = this.COLOR_SENSOR.getNamedColor();
+        final String detected = this.COLOR_SENSOR.getNamedColor();
 
         if(this.COLOR_SENSOR.DETECTED_2_TARGET.get(detected) != this.targetColor){
             this.spinnerMotor.set(0.2);
@@ -66,10 +70,50 @@ public class Spinner {
             this.spinnerMotor.set(0.0);
             this.targetColor = "";
         }
-    }
+    } 
+    public void colorControlInit(int rotationControl){
+    /*this.startColor = this.COLOR_SENSOR.getNamedColor();
+        this.rotationDirection = rotationControl; */
+        this.targetColor = DriverStation.getInstance().getGameSpecificMessage();
+        if (this.targetColor.length() > 0){
+            switch (this.targetColor.charAt(0)) {
+                case 'B':
+                 this.targetColor = "Blue"; 
+                break;
+                
+                case 'G' :
+                 this.targetColor = "Green";
+                break;
 
- 
+                case 'R' :
+                 this.targetColor = "Red";
+                break;
+
+                case 'Y' :
+                 this.targetColor = "Yellow";
+                break;
+                
+                default :
+                break;
+            }
+        } else {
+
+        }
+    }
+     public void colorControlPeriodic() {
+        final String detected = this.COLOR_SENSOR.getNamedColor();
+
+        if(detected != this.startColor){
+            this.spinnerMotor.set(0.0);
+            this.startColor = "";
+        }else{
+            this.spinnerMotor.set(0.2*this.rotationDirection);
+        }
+    }
 }
-// Init sends a signel once
-// Periodic sends a signal once in a while 
-//https://github.com/JulianOrteil/InfiniteRecharge/blob/master/src/main/java/frc/robot/subsystems/Spinner.java
+
+
+
+
+
+

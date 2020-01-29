@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   RobotMap robotMap;
   Drive drive;
   private final int X_AXIS = 0;
-  Ruble
+  //Ruble
   private final int Y_AXIS = 1;
   boolean intakeDebounce = false;
   boolean intakeToggle = false;
@@ -57,7 +57,7 @@ public class Robot extends TimedRobot {
     boolean colorButton = this.m_OI.masterController.getYButtonPressed();
     this.drive.drive(this.robotMap.getChassis(), this.m_OI.masterController.getRawAxis(this.X_AXIS), this.m_OI.masterController.getRawAxis(this.Y_AXIS));
     
-   /* if (intakeButton){
+    if (intakeButton){
       if (!this.intakeDebounce){
         this.intakeDebounce = true;
         this.intakeToggle = !this.intakeToggle;
@@ -66,7 +66,7 @@ public class Robot extends TimedRobot {
       this.intakeDebounce = false;
     } 
     this.robotMap.getIntake().set( this.intakeToggle ?  0.05 : 0.0);
-    //This block turns intake on/off */
+    //DON'T COMMENT THIS OUT. IT IS A FEATURE THAT WIL COME IN HANDY
 
     if (colorButton){
       if (!this.colorDebounce){
@@ -77,9 +77,7 @@ public class Robot extends TimedRobot {
       this.colorDebounce = false;
 
       this.m_OI.masterController.setRumble(RumbleType.kLeftRumble, 1);
-    } 
-    //this block turn colorsensor on/off (Remember to put the actual execution of said code in ALLAN!)
-      
+    } /* This sets up the Spinner Arm for use, need to see is Spinner arm is done */     
   }
 
   @Override

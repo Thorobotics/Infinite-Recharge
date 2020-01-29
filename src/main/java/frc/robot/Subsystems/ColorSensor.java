@@ -28,7 +28,7 @@ public class ColorSensor {
 // #s represent the color (RGB)
     private Color targetColor;
 
-    public final Map<Color, Color> DETECTED_2_TARGET = new HashMap<>(); //Walter: String -> Color
+    public final Map<String, String> DETECTED_2_TARGET = new HashMap<>(); //Walter: String -> Color -> String
 // we are now on the color sensor
     public ColorSensor(){
         this.COLOR_MATCHER.addColorMatch(COLOR_BLUE);
@@ -40,10 +40,10 @@ public class ColorSensor {
 *  detecting 2 colors -> Blue to Green, Green to Red, Red to Yellow, Yellow to Blue
 *The colors are ordered in Blue, Green, Red, and Yellow
 */
-        this.DETECTED_2_TARGET.put(COLOR_YELLOW, COLOR_BLUE);
-        this.DETECTED_2_TARGET.put(COLOR_BLUE, COLOR_GREEN);
-        this.DETECTED_2_TARGET.put(COLOR_GREEN, COLOR_RED);
-        this.DETECTED_2_TARGET.put(COLOR_RED, COLOR_YELLOW);
+        this.DETECTED_2_TARGET.put("Yellow", "Blue");
+        this.DETECTED_2_TARGET.put("Blue", "Green");
+        this.DETECTED_2_TARGET.put("Green", "Red");
+        this.DETECTED_2_TARGET.put("Red", "Yellow");
     }
 
     public Color getColor() {
@@ -71,7 +71,20 @@ public class ColorSensor {
     }
 
     public boolean matchColor(){
-        ColorMatchResult colorMatch = this.COLOR_MATCHER.matchClosestColor(this.getColor());
+        ColorMatchResult colorMatch = this.COLOR_MATCHER.matchClosestColor(this.getNamedColor());
         return colorMatch.color == this.targetColor;
+    }
+    
+    public String getNamedColor(){
+        if (colorMatch.color == COLOR_BLUE){
+            return "Blue";
+        } else if (colorMatch.color == COLOR_GREEN){
+            return "Green";
+        } else if (colorMatch.color == COLOR_RED){
+            return "Red";
+        } else if (colorMatch.color == COLOR_YELLOW){
+            return "Yellow";
+        }
+         return "Unknown";
     }
 }
